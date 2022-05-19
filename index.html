@@ -48,16 +48,21 @@
 			<input type="number" id="calc_season_length" checked="checked" class="form-control form-control-sm" value="25"/>
 		</div>
 	</div>
-	<div class="col-6">
-		<div class="form-group">
-			<label>Your Food Per Hour</label>
-			<input  type="number" id="calc_food_per_hour" class="form-control form-control-sm" value="0"/>
-		</div>
-	</div>
-	<div class="col-6">
-		<div class="form-group">
-			<label>Your Food Per Day</label>
-			<input  type="number" id="calc_food_per_day" readonly class="form-control form-control-sm" value="0"/>
+	<div class="col-12">
+		<div class="row">
+				<label class="d-block text-center">Your Food Per Hour</label>
+				<div class="col-6">
+					<div class="form-group">
+						<label>Kitchen</label>
+						<input  type="number" id="calc_food_per_hour" class="form-control form-control-sm" value="0"/>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="form-group">
+						<label>Tribute Chest</label>
+						<input  type="number" id="calc_food_per_hour_chest" class="form-control form-control-sm" value="0"/>
+					</div>
+				</div>
 		</div>
 	</div>
 	<div class="col-12">
@@ -73,6 +78,13 @@
 					  <label class="btn btn-primary btn-sm" for="calc_food_dons_per_day_2">2 times</label>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="col-12">
+		<div class="form-group">
+			<label>Your Food Per Day</label>
+			<input  type="hidden" id="calc_food_per_day" readonly class="form-control form-control-sm" value="0"/>
+			<div class="text-center" style="border: 1px solid; margin-bottom: 10px;"><span id="calc_food_per_day_text"  style="font-size:1.5em">0</span></div>
 		</div>
 	</div>
 </div>

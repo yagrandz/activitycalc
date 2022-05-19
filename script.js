@@ -3,6 +3,7 @@ class ActivityCalc {
 		this.f = {
 			throne_room_level: $('#calc_throne_room_level'),
 			food_dons_per_day: $('#calc_food_dons_per_day'),
+			food_per_hour_chest: $('#calc_food_per_hour_chest'),
 			food_per_hour: $('#calc_food_per_hour'),
 			food_per_day: $('#calc_food_per_day'),
 			season_length: $('#calc_season_length'),
@@ -14,6 +15,7 @@ class ActivityCalc {
 		};
 		this.f.food_dons_per_day.click(this.onFoodPerHourChange.bind(this));
 		this.f.food_per_hour.change(this.onFoodPerHourChange.bind(this));
+		this.f.food_per_hour_chest.change(this.onFoodPerHourChange.bind(this));
 		this.f.throne_room_level.change(this.calc.bind(this));
 		this.f.season_length.change(this.calc.bind(this));
 		this.f.arena_raid_per_day.change(this.calc.bind(this));
@@ -21,6 +23,7 @@ class ActivityCalc {
 		this.f.devourer_raid_per_day.change(this.calc.bind(this));
 		this.f.devourer_avg_eyes_per_raid.change(this.calc.bind(this));
 		this.r = {
+			food_per_day_text: $('#calc_food_per_day_text'),
 			free_progressbar: $('#calc_free_progressbar'),
 			free_progressbar_val: $('#calc_free_progressbar_val'),
 			arena_progressbar: $('#calc_arena_progressbar'),
@@ -43,8 +46,9 @@ class ActivityCalc {
 	
 	onFoodPerHourChange(){
 		var donation_val = this.base.Donations[this.f.throne_room_level.val()]['Food'],
-		food_per_day = this.f.food_per_hour.val()*24+(this.f.food_dons_per_day.find(':checked').val()*donation_val);
+		food_per_day = (parseInt(this.f.food_per_hour_chest.val())+parseInt(this.f.food_per_hour.val()))*24+(this.f.food_dons_per_day.find(':checked').val()*donation_val);
 		this.f.food_per_day.val(food_per_day);
+		this.r.food_per_day_text.html(food_per_day);
 		
 		this.calc();
 	}
