@@ -2,6 +2,7 @@ class ActivityCalc {
 	constructor(){
 		this.f = {
 			throne_room_level: $('#calc_throne_room_level'),
+			food_dons_per_day: $('#calc_food_dons_per_day'),
 			food_per_hour: $('#calc_food_per_hour'),
 			food_per_day: $('#calc_food_per_day'),
 			season_length: $('#calc_season_length'),
@@ -11,6 +12,7 @@ class ActivityCalc {
 			devourer_avg_eyes_per_raid: $('#calc_devourer_avg_eyes_per_raid'),
 			food_spending_balance_alert: $('#calc_food_spending_balance_alert'),
 		};
+		this.f.food_dons_per_day.click(this.onFoodPerHourChange.bind(this));
 		this.f.food_per_hour.change(this.onFoodPerHourChange.bind(this));
 		this.f.throne_room_level.change(this.calc.bind(this));
 		this.f.season_length.change(this.calc.bind(this));
@@ -20,13 +22,16 @@ class ActivityCalc {
 		this.f.devourer_avg_eyes_per_raid.change(this.calc.bind(this));
 		this.r = {
 			free_progressbar: $('#calc_free_progressbar'),
+			free_progressbar_val: $('#calc_free_progressbar_val'),
 			arena_progressbar: $('#calc_arena_progressbar'),
+			arena_progressbar_val: $('#calc_arena_progressbar_val'),
 			arena_food_spending: $('#calc_arena_food_spending'),
 			arena_food_cost_per_day: $('#calc_arena_food_cost_per_day'),
 			arena_food_cost_per_season: $('#calc_arena_food_cost_per_season'),
 			arena_medals_reward_per_day: $('#calc_arena_medals_reward_per_day'),
 			arena_medals_reward_per_season: $('#calc_arena_medals_reward_per_season'),
 			devourer_progressbar: $('#calc_devourer_progressbar'),
+			devourer_progressbar_val: $('#calc_devourer_progressbar_val'),
 			devourer_food_spending: $('#calc_devourer_food_spending'),
 			devourer_food_cost_per_day: $('#calc_devourer_food_cost_per_day'),
 			devourer_food_cost_per_season: $('#calc_devourer_food_cost_per_season'),
@@ -37,7 +42,10 @@ class ActivityCalc {
 	}
 	
 	onFoodPerHourChange(){
-		this.f.food_per_day.val(this.f.food_per_hour.val()*24);
+		var donation_val = this.base.Donations[this.f.throne_room_level.val()]['Food'],
+		food_per_day = this.f.food_per_hour.val()*24+(this.f.food_dons_per_day.find(':checked').val()*donation_val);
+		this.f.food_per_day.val(food_per_day);
+		
 		this.calc();
 	}
 	
@@ -67,6 +75,7 @@ class ActivityCalc {
 		arena_food_spending = Math.round(arena_food_cost_per_day/food_per_day*100, 2);
 		arena_food_spending = arena_food_spending>=0?arena_food_spending:0;
 		this.r.arena_food_spending.html(arena_food_spending+'%');
+		this.r.arena_progressbar_val.html(arena_food_spending+'%');
 		this.r.arena_progressbar.css({width:arena_food_spending+'%'});
 		this.r.arena_food_cost_per_day.html(arena_food_cost_per_day);
 		this.r.arena_food_cost_per_season.html(arena_food_cost_per_day*season_length);
@@ -94,6 +103,7 @@ class ActivityCalc {
 		devourer_food_spending = Math.round(devourer_food_cost_per_day/food_per_day*100, 2);
 		devourer_food_spending = devourer_food_spending>=0?devourer_food_spending:0;
 		this.r.devourer_food_spending.html(devourer_food_spending+'%');
+		this.r.devourer_progressbar_val.html(devourer_food_spending+'%');
 		this.r.devourer_progressbar.css({width:devourer_food_spending+'%'});
 		this.r.devourer_food_cost_per_day.html(devourer_food_cost_per_day);
 		this.r.devourer_food_cost_per_season.html(devourer_food_cost_per_day*season_length);
@@ -106,10 +116,10 @@ class ActivityCalc {
 			this.r.arena_food_spending.css({color:'red'});
 			this.r.devourer_food_spending.css({color:'red'});
 			this.f.food_spending_balance_alert.slideDown('fast');
-			this.r.free_progressbar.html('');
+			this.r.free_progressbar_val.html('');
 			this.r.free_progressbar.css({width:'0%'});
 		}else{
-			this.r.free_progressbar.html(food_per_day-summary_food_cost);
+			this.r.free_progressbar_val.html(food_per_day-summary_food_cost);
 			this.r.free_progressbar.css({width:(100-summary_spending)+'%'});
 			this.r.arena_food_spending.css({color:'inherit'});
 			this.r.devourer_food_spending.css({color:'inherit'});

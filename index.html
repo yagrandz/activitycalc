@@ -31,15 +31,21 @@
 <div class="container">
 <h1>Broyalty ActivityCalc</h2>
 <div class="row">
-	<div class="col-12">
+	<div class="col-6">
 		<div class="form-group">
-			<label>Your Throne Room Level</label>
+			<label>Your TR Level</label>
 			<select id="calc_throne_room_level" class="form-control form-control-sm">
 				<option value="5">5 Level</option>
 				<option value="6">6 Level</option>
 				<option value="7">7 Level</option>
 				<option value="8">8 Level</option>
 			</select>
+		</div>
+	</div>
+	<div class="col-6">
+		<div class="form-group">
+			<label>Season Length (days)</label>
+			<input type="number" id="calc_season_length" checked="checked" class="form-control form-control-sm" value="25"/>
 		</div>
 	</div>
 	<div class="col-6">
@@ -55,32 +61,41 @@
 		</div>
 	</div>
 	<div class="col-12">
-		<div class="form-group">
-			<label>Season Length (days)</label>
-			<input type="number" id="calc_season_length" class="form-control form-control-sm" value="25"/>
+		<div class="form-group" id="calc_food_dons_per_day">
+			<label>Food Donations Requests Per Day</label>
+			<div class="text-center">
+				<div class="btn-group btn-group-sm btn-toolbar justify-content-between">
+					  <input class="btn-check" type="radio" checked="checked" name="calc_food_dons_per_day" id="calc_food_dons_per_day_0" value="0">
+					  <label class="btn btn-primary btn-sm" for="calc_food_dons_per_day_0">0 times</label>
+					  <input class="btn-check" type="radio" name="calc_food_dons_per_day" id="calc_food_dons_per_day_1" value="1">
+					  <label class="btn btn-primary btn-sm" for="calc_food_dons_per_day_1">1 times</label>
+					  <input class="btn-check" type="radio" name="calc_food_dons_per_day" id="calc_food_dons_per_day_2" value="2">
+					  <label class="btn btn-primary btn-sm" for="calc_food_dons_per_day_2">2 times</label>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 <div class="row">
 	<div class="col-6">
-		<h2>Tournament</h2>
+		<div class="text-center"><img class="img-fluid" style="height: 64px;" src="img/tournament.png"/></div>
 		<div class="form-group">
 			<label>Raids Per Day</label>
 			<input type="number" id="calc_arena_raid_per_day" class="form-control form-control-sm" value="0"/>
 		</div>
 		<div class="form-group">
-			<label>You Average Medals Per Raid (w/o booster)</label>
+			<label>You Medals Per Raid</label>
 			<input type="number" id="calc_arena_avg_medals_per_raid" class="form-control form-control-sm" value="0"/>
 		</div>
 	</div>
 	<div class="col-6">
-		<h2>W Devourer </h2>
+		<div class="text-center"><img class="img-fluid" style="height: 64px;" src="img/world_devourer.png"/></div>
 		<div class="form-group">
 			<label>Raids Per Day</label>
 			<input type="number" id="calc_devourer_raid_per_day" class="form-control form-control-sm" value="0"/>
 		</div>
 		<div class="form-group">
-			<label>You Average Eyes Per Raid (w/o booster)</label>
+			<label>You Eyes Per Raid</label>
 			<input type="number" id="calc_devourer_avg_eyes_per_raid" class="form-control form-control-sm" value="0"/>
 		</div>
 	</div>
@@ -88,33 +103,43 @@
 		<div class="form-group">
 			<label class="text-center d-block">Food spending balance</label>
 			<div class="progress">
-			  <div class="progress-bar bg-warning" id="calc_arena_progressbar" role="progressbar" style="width: 0%">Tournament</div>
-			  <div class="progress-bar bg-info" id="calc_devourer_progressbar" role="progressbar" style="width: 0%">Devourer</div>
-			  <div class="progress-bar bg-success" id="calc_free_progressbar" role="progressbar" style="width: 100%"></div>
+			  <div class="progress-bar bg-warning" id="calc_arena_progressbar" role="progressbar" style="width: 0%"><div><img style="width:1rem" src="img/tournament.png"/><span id="calc_arena_progressbar_val"></span></div></div>
+			  <div class="progress-bar bg-info" id="calc_devourer_progressbar" role="progressbar" style="width: 0%;background-color: #a86fd4 !important;"><div><img style="width:1rem" src="img/world_devourer.png"/><span id="calc_devourer_progressbar_val"></span></div></div>
+			  <div class="progress-bar bg-success" id="calc_free_progressbar" role="progressbar" style="width: 100%"><div><img style="width:1rem" src="img/food.png"/><span id="calc_free_progressbar_val"></span></div></div>
 			</div>
 		</div>
 		<div class="alert alert-danger text-center" id="calc_food_spending_balance_alert" style="display:none;">
 			Your requests don't match your income!
 		</div>
 	</div>
-	<div class="col-6">
-		<div class="form-group">
-			<label>Food spending</label>
-			<div><span id="calc_arena_food_spending"></span></div>
-			<label>Food costs day/season</label>
-			<div><span id="calc_arena_food_cost_per_day"></span>/<span id="calc_arena_food_cost_per_season"></span></div>
-			<label>Medals reward day/season</label>
-			<div><span id="calc_arena_medals_reward_per_day"></span>/<span id="calc_arena_medals_reward_per_season"></span></div>
+	<div class="col-12">
+		<h3 class="text-center">Day</h3>
+	</div>
+	<div class="col-6" style="font-size: 1.5em;">
+		<div class="row">
+			<div class="col-12"><img style="width:1em" src="img/food.png"/><span id="calc_arena_food_cost_per_day"></span></div>
+			<div class="col-12"><img style="width:1em" src="img/medal.png"/><span id="calc_arena_medals_reward_per_day"></span></div>
 		</div>
 	</div>
-	<div class="col-6">
-		<div class="form-group">
-			<label>Food spending</label>
-			<div><span id="calc_devourer_food_spending"></span></div>
-			<label>Food costs day/season</label>
-			<div><span id="calc_devourer_food_cost_per_day"></span>/<span id="calc_devourer_food_cost_per_season"></span></div>
-			<label>Eyes reward day/season</label>
-			<div><span id="calc_devourer_eyes_reward_per_day"></span>/<span id="calc_devourer_eyes_reward_per_season"></span></div>
+	<div class="col-6" style="font-size: 1.5em;">
+		<div class="row">
+			<div class="col-12"><img style="width:1em" src="img/food.png"/><span id="calc_devourer_food_cost_per_day"></span></div>
+			<div class="col-12"><img style="width:1em" src="img/medal.png"/><span id="calc_devourer_eyes_reward_per_day"></span></div>
+		</div>
+	</div>
+	<div class="col-12">
+		<h3  class="text-center">Season</h3>
+	</div>
+	<div class="col-6" style="font-size: 1.5em;">
+		<div class="row">
+			<div class="col-12"><img style="width:1em" src="img/food.png"/><span id="calc_arena_food_cost_per_season"></span></div>
+			<div class="col-12"><img style="width:1em" src="img/eye.png"/><span id="calc_arena_medals_reward_per_season"></span></div>
+		</div>
+	</div>
+	<div class="col-6" style="font-size: 1.5em;">
+		<div class="row">
+			<div class="col-12"><img style="width:1em" src="img/food.png"/><span id="calc_devourer_food_cost_per_season"></span></div>
+			<div class="col-12"><img style="width:1em" src="img/eye.png"/><span id="calc_devourer_eyes_reward_per_season"></span></div>
 		</div>
 	</div>
 </div>
